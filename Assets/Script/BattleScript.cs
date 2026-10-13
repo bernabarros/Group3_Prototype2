@@ -12,13 +12,17 @@ public class BattleScript : MonoBehaviour
     [SerializeField] private TMP_Text enemyNameText;
     [SerializeField] private TMP_Text enemyHealthText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private GameObject confirmButton;
     
     
     private int playerCurrentHealth;
     private int enemyCurrentHealth;
+    private Attack selectedAttack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        confirmButton.SetActive(false);
+
         playerCurrentHealth = playerCharacter.health;
         enemyCurrentHealth = enemyCharacter.health;
         for (int i = 0; i < attackButtons.Length; i++)
@@ -45,18 +49,29 @@ public class BattleScript : MonoBehaviour
         {
             button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnAttackButtonClicked(button));
         }
+
+        confirmButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnConfirmButtonClicked());
     }
 
     void OnAttackButtonClicked(GameObject button)
     {
         int index = System.Array.IndexOf(attackButtons, button);
 
-        descriptionText.text = "Current Attack Stats: \n" +playerCharacter.attacks[index].description;
+        selectedAttack = playerCharacter.attacks[index];
+        descriptionText.text = "Current Attack Stats: \n" + selectedAttack.description;
+        confirmButton.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnConfirmButtonClicked()
     {
-        
+        if (selectedAttack != null)
+        {
+            Debug.Log("Aqui usarias o ataque: " + selectedAttack.attackName);
+            confirmButton.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Selecciona um ataque");
+        }
     }
 }
