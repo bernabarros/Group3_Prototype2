@@ -7,4 +7,8 @@ public class Character : ScriptableObject
     public int health;
     public int attackPower;
     public Attack[] attacks;
+    public float[] attackChances;
+
+    public Sprite characterSprite;
+    public Sprite portraitSprite;
 }

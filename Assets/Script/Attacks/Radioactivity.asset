@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Radioactivity
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   attackName: Radioactivity
-  type: 
-  value: 1
+  type: Physical
+  value: 30
   description: Flows a cloud that deals 30 * your level of damage.

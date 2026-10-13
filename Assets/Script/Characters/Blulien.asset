@@ -15,4 +15,11 @@ MonoBehaviour:
   characterName: Blulien
   health: 100
   attackPower: 10
-  attacks: []
+  attacks:
+  - {fileID: 11400000, guid: 77ca0fa9f4bd15c47bd32cb93b9d6a5f, type: 2}
+  - {fileID: 11400000, guid: e1ae18eda7b085b49895ac16292d5e29, type: 2}
+  attackChances:
+  - 0.8
+  - 0.2
+  characterSprite: {fileID: -6486227441069744049, guid: 03582fecf3426e041a37497871977b5f, type: 3}
+  portraitSprite: {fileID: 5604595619706568818, guid: 4ece4044ae2fd7e4b869368f2abb0bb4, type: 3}

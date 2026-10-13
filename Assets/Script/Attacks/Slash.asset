@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   attackName: Slash
-  type: 
+  type: Physical
   value: 20
   description: Deals 20 * your level of damage.
