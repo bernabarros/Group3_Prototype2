@@ -19,6 +19,9 @@ public class BattleScript : MonoBehaviour
 
     [SerializeField] private SpriteRenderer enemySR;
     [SerializeField] private Image enemyPortrait;
+
+    [SerializeField] private Image playerHealthBar;
+    [SerializeField] private Image enemyHealthBar;
     
     
     private int playerCurrentHealth;
@@ -37,7 +40,9 @@ public class BattleScript : MonoBehaviour
         enemyAttacks = enemyCharacter.attacks;
         enemySR.sprite = enemyCharacter.characterSprite;
         enemyPortrait.sprite = enemyCharacter.portraitSprite;
-        
+
+        playerHealthBar.fillAmount = (float)playerCurrentHealth / playerCharacter.health;
+
         for (int i = 0; i < attackButtons.Length; i++)
         {
             if (i < playerCharacter.attacks.Length)
@@ -88,6 +93,7 @@ public class BattleScript : MonoBehaviour
                     enemyCurrentHealth = 0;
                 }
                 enemyHealthText.text = enemyCurrentHealth.ToString() + " / " + enemyCharacter.health.ToString();
+                enemyHealthBar.fillAmount = (float)enemyCurrentHealth / enemyCharacter.health;
             }
             confirmButton.SetActive(false);
             EnemyTurn();
@@ -118,6 +124,7 @@ public class BattleScript : MonoBehaviour
                         playerCurrentHealth = 0;
                     }
                     playerHealthText.text = playerCurrentHealth.ToString() + " / " + playerCharacter.health.ToString();
+                    playerHealthBar.fillAmount = (float)playerCurrentHealth / playerCharacter.health;
                 }
                 break;
             }
