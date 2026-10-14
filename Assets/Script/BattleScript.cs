@@ -33,10 +33,13 @@ public class BattleScript : MonoBehaviour
 
     private float battleEndDelay;
 
+    private bool enemyCanAttack;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         confirmButton.SetActive(false);
+        enemyCanAttack = true;
 
         playerCurrentHealth = playerCharacter.health;
         playerCurrentMana = playerCharacter.mana;
@@ -109,6 +112,7 @@ public class BattleScript : MonoBehaviour
                 enemyCurrentHealth -= selectedAttack.value * playerLvl;
                 if (enemyCurrentHealth < 0)
                 {
+                    enemyCanAttack = false;
                     enemyCurrentHealth = 0;
                 }
                 enemyHealthText.text = enemyCurrentHealth.ToString() + " / " + enemyCharacter.health.ToString();
@@ -135,6 +139,11 @@ public class BattleScript : MonoBehaviour
 
     void EnemyTurn()
     {
+        if (!enemyCanAttack)
+        {
+            return;
+        }
+        
         float chance = Random.Range(0f, 1f);
 
         float cumulativeChance = 0f;
