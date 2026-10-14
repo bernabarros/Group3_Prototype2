@@ -28,6 +28,9 @@ public class BattleScript : MonoBehaviour
     private int enemyCurrentHealth;
     private Attack selectedAttack;
     private Attack[] enemyAttacks;
+
+    private float battleEndDelay;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -96,6 +99,10 @@ public class BattleScript : MonoBehaviour
                 enemyHealthBar.fillAmount = (float)enemyCurrentHealth / enemyCharacter.health;
             }
             confirmButton.SetActive(false);
+            if(enemyCurrentHealth == 0)
+            {
+                Invoke(nameof(BattleEnd), battleEndDelay);
+            }
             EnemyTurn();
         }
         else
@@ -129,5 +136,12 @@ public class BattleScript : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void BattleEnd()
+    {
+        GameManager.Instance.MarkEnemyDefeated(
+            GameManager.Instance.CurrentEnemyId);
+        GameManager.Instance.ReturnToWorldMap();
     }
 }
