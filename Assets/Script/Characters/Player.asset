@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Character
   characterName: Allyen
   health: 200
+  mana: 40
   attackPower: 20
   attacks:
   - {fileID: 11400000, guid: 77ca0fa9f4bd15c47bd32cb93b9d6a5f, type: 2}
   - {fileID: 11400000, guid: e1ae18eda7b085b49895ac16292d5e29, type: 2}
+  attackChances: []
+  characterSprite: {fileID: 0}
+  portraitSprite: {fileID: 0}

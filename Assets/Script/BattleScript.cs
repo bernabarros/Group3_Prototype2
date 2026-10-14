@@ -22,10 +22,12 @@ public class BattleScript : MonoBehaviour
 
     [SerializeField] private Image playerHealthBar;
     [SerializeField] private Image enemyHealthBar;
+    [SerializeField] private TMP_Text playerManaText;
     
     
     private int playerCurrentHealth;
     private int enemyCurrentHealth;
+    private int playerCurrentMana;
     private Attack selectedAttack;
     private Attack[] enemyAttacks;
 
@@ -37,10 +39,11 @@ public class BattleScript : MonoBehaviour
         confirmButton.SetActive(false);
 
         playerCurrentHealth = playerCharacter.health;
-
+        playerCurrentMana = playerCharacter.mana;
         if(GameManager.Instance.PlayerHealth != null)
         {
             playerCurrentHealth = GameManager.Instance.PlayerHealth.Value;
+            playerCurrentMana = GameManager.Instance.PlayerMana.Value;
         }
 
         enemyCurrentHealth = enemyCharacter.health;
@@ -66,6 +69,7 @@ public class BattleScript : MonoBehaviour
 
         playerNameText.text = playerCharacter.characterName;
         playerHealthText.text = playerCurrentHealth.ToString() + " / " + playerCharacter.health.ToString();
+        playerManaText.text = playerCurrentMana.ToString() + " / " + playerCharacter.mana.ToString();
         enemyNameText.text = enemyCharacter.characterName;
         enemyHealthText.text = enemyCurrentHealth.ToString() + " / " + enemyCharacter.health.ToString();
     }
@@ -74,10 +78,10 @@ public class BattleScript : MonoBehaviour
     {
         foreach (GameObject button in attackButtons)
         {
-            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnAttackButtonClicked(button));
+            button.GetComponent<Button>().onClick.AddListener(() => OnAttackButtonClicked(button));
         }
 
-        confirmButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnConfirmButtonClicked());
+        confirmButton.GetComponent<Button>().onClick.AddListener(() => OnConfirmButtonClicked());
     }
 
     void OnAttackButtonClicked(GameObject button)
@@ -94,6 +98,12 @@ public class BattleScript : MonoBehaviour
         if (selectedAttack != null)
         {
             Debug.Log("Aqui usarias o ataque: " + selectedAttack.attackName);
+            if (playerCurrentMana < selectedAttack.mana)
+            {
+                return;
+            }
+            playerCurrentMana -= selectedAttack.mana;
+            playerManaText.text = playerCurrentMana.ToString() + " / " + playerCharacter.mana.ToString();
             if (selectedAttack.type == "Physical")
             {
                 enemyCurrentHealth -= selectedAttack.value * playerLvl;
@@ -109,6 +119,7 @@ public class BattleScript : MonoBehaviour
             {
                 GameManager.Instance.PlayerVictory();
                 GameManager.Instance.SetPlayerHealth(playerCurrentHealth);
+                GameManager.Instance.SetPlayerMana(playerCurrentMana);
                 Invoke(nameof(BattleEnd), battleEndDelay);
             }
             if(enemyCurrentHealth > 0)

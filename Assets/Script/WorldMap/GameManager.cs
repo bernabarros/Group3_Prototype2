@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private string battleResult;
 
     private int? playerHealth = null;
+    private int? playerMana = null;
 
     public Vector3 SavedPlayerPosition => savedPlayerPosition;
     public bool HasSavedPosition => hasSavedPosition;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     public string BattleResult => battleResult;
 
     public int? PlayerHealth => playerHealth;
+    public int? PlayerMana => playerMana;
 
 
     private HashSet<string> defeatedEnemies = new HashSet<string>();
@@ -85,5 +87,10 @@ public class GameManager : MonoBehaviour
     public void SetPlayerHealth(int healthValue)
     {
         playerHealth = healthValue;
+    }
+
+    public void SetPlayerMana(int manaValue)
+    {
+        playerMana = manaValue;
     }
 }

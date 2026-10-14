@@ -7,4 +7,5 @@ public class Attack : ScriptableObject
     public string type;
     public int value;
     public string description;
+    public int mana;
 }
