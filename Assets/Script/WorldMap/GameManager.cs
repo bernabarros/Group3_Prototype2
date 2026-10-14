@@ -10,11 +10,17 @@ public class GameManager : MonoBehaviour
     private string currentEnemyId;
     private bool hasSavedPosition = false;
 
+    private string battleResult;
+
+    private int? playerHealth = null;
+
     public Vector3 SavedPlayerPosition => savedPlayerPosition;
     public bool HasSavedPosition => hasSavedPosition;
     public string CurrentEnemyId => currentEnemyId;
+    public string BattleResult => battleResult;
 
-    //private bool battleResult;
+    public int? PlayerHealth => playerHealth;
+
 
     private HashSet<string> defeatedEnemies = new HashSet<string>();
 
@@ -49,14 +55,35 @@ public class GameManager : MonoBehaviour
         return defeatedEnemies.Contains(enemyId);
     }
 
-    public void ReturnToWorldMap()
+    public void ReturnToWorldMap(string result)
     {
-        //battleResult = result;
+        if(result == "Defeat")
+        {
+            defeatedEnemies.Clear();
+
+            hasSavedPosition = false;
+        }
+
         SceneManager.LoadScene("WorldMapScene");
     }
 
     public void RemoveSavedPosition()
     {
         hasSavedPosition = false;
+    }
+
+    public void PlayerVictory()
+    {
+        battleResult = "Victory";
+    }
+
+    public void PlayerDefeat()
+    {
+        battleResult = "Defeat";
+    }
+
+    public void SetPlayerHealth(int healthValue)
+    {
+        playerHealth = healthValue;
     }
 }

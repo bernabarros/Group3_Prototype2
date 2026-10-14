@@ -37,6 +37,12 @@ public class BattleScript : MonoBehaviour
         confirmButton.SetActive(false);
 
         playerCurrentHealth = playerCharacter.health;
+
+        if(GameManager.Instance.PlayerHealth != null)
+        {
+            playerCurrentHealth = GameManager.Instance.PlayerHealth.Value;
+        }
+
         enemyCurrentHealth = enemyCharacter.health;
         levelText.text = "LV: " + playerLvl.ToString();
 
@@ -101,9 +107,14 @@ public class BattleScript : MonoBehaviour
             confirmButton.SetActive(false);
             if(enemyCurrentHealth == 0)
             {
+                GameManager.Instance.PlayerVictory();
+                GameManager.Instance.SetPlayerHealth(playerCurrentHealth);
                 Invoke(nameof(BattleEnd), battleEndDelay);
             }
-            EnemyTurn();
+            if(enemyCurrentHealth > 0)
+            {
+                EnemyTurn();
+            }
         }
         else
         {
@@ -133,6 +144,11 @@ public class BattleScript : MonoBehaviour
                     playerHealthText.text = playerCurrentHealth.ToString() + " / " + playerCharacter.health.ToString();
                     playerHealthBar.fillAmount = (float)playerCurrentHealth / playerCharacter.health;
                 }
+                if(playerCurrentHealth == 0)
+                {
+                    GameManager.Instance.PlayerDefeat();
+                    Invoke(nameof(BattleEnd),battleEndDelay);
+                }
                 break;
             }
         }
@@ -140,8 +156,12 @@ public class BattleScript : MonoBehaviour
 
     public void BattleEnd()
     {
-        GameManager.Instance.MarkEnemyDefeated(
-            GameManager.Instance.CurrentEnemyId);
-        GameManager.Instance.ReturnToWorldMap();
+        if(GameManager.Instance.BattleResult == "Victory")
+        {
+            GameManager.Instance.MarkEnemyDefeated(
+                GameManager.Instance.CurrentEnemyId);
+        }
+
+        GameManager.Instance.ReturnToWorldMap(GameManager.Instance.BattleResult);
     }
 }
